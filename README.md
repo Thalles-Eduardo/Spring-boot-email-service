@@ -17,6 +17,7 @@ integrando-a com o RabbitMQ para otimizar a comunicação e o processamento das 
 - [Spring Data JPA](https://spring.io/projects/spring-data-jpa)
 - [MongoDB](https://www.mongodb.com/pt-br)
 - [RabbitMQ](https://www.rabbitmq.com)
+- [Swagger](https://swagger.io)
 
 ## Práticas adotadas
 
@@ -25,6 +26,7 @@ integrando-a com o RabbitMQ para otimizar a comunicação e o processamento das 
 - Consultas com Spring Data JPA
 - Injeção de Dependências
 - Processo de Mensageria
+- Documentação
 
 ## Como Executar
 
@@ -45,6 +47,11 @@ Para fazer as requisições HTTP abaixo, foi utilizada a ferramenta [Postman](ht
 
 
 
+# Author
+
+Thalles Eduardo Dias da Silva
+
+- [Linkedin](https://linkedin.com/in/thalles-eduardo-7297a6237)
 
 
 
