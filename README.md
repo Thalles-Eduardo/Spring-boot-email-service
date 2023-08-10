@@ -32,7 +32,7 @@ integrando-a com o RabbitMQ para otimizar a comunicação e o processamento das 
 
 - Clonar repositório git
 ```bash
-git clone 
+git clone https://github.com/Thalles-Eduardo/Spring-boot-email-service
 ```
 - Executar a aplicação:
 ```bash
@@ -45,6 +45,7 @@ Para fazer as requisições HTTP abaixo, foi utilizada a ferramenta [Postman](ht
 
 - Enviar e-mail
 
+![Enviar e-mail](https://github.com/Thalles-Eduardo/Spring-boot-email-service/assets/69612509/c3d23d90-6d80-4f55-a309-ca0f8ffaa49a)
 
 
 # Author
@@ -52,6 +53,3 @@ Para fazer as requisições HTTP abaixo, foi utilizada a ferramenta [Postman](ht
 Thalles Eduardo Dias da Silva
 
 - [Linkedin](https://linkedin.com/in/thalles-eduardo-7297a6237)
-
-
-
