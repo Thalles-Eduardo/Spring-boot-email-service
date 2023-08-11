@@ -41,7 +41,7 @@ git clone https://github.com/Thalles-Eduardo/Spring-boot-email-service
 
 ## API Endpoints
 
-Para fazer as requisições HTTP abaixo, foi utilizada a ferramenta [Postman](https://www.postman.com/downloads/) ou pode usar uma de sua preferência.
+Para fazer as requisições HTTP abaixo, foi utilizada a ferramenta [Postman](https://www.postman.com/downloads/) ou pelo [Swagger](http://localhost:8080/swagger-ui/index.html).
 
 - Enviar e-mail
 
