@@ -1,0 +1,33 @@
+spring:
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/email-service
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+    queue: email-queue
+  mail:
+    host: smtp.example.com
+    port: 587
+    username: your-smtp-username
+    password: your-smtp-password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+app:
+  mail:
+    from: no-reply@example.com
+  security:
+    api-key: change-this-to-a-real-secret
+    rate-limit:
+      max-requests: 20
+      window-seconds: 60
+
+server:
+  port: 8080
