@@ -39,9 +39,19 @@ git clone https://github.com/Thalles-Eduardo/Spring-boot-email-service
 ./mvnw spring-boot:run
 ```
 
+## Configuração
+
+Copie `src/main/resources/application.yaml.example` para `src/main/resources/application.yaml` e
+preencha com suas credenciais (MongoDB, RabbitMQ, SMTP). Esse arquivo é ignorado pelo git — nunca
+commite credenciais reais.
+
 ## API Endpoints
 
 Para fazer as requisições HTTP abaixo, foi utilizada a ferramenta [Postman](https://www.postman.com/downloads/) ou pelo [Swagger](http://localhost:8080/swagger-ui/index.html).
+
+Todas as requisições exigem o header `X-API-KEY` com o valor configurado em `app.security.api-key`.
+O envio agora é assíncrono: o endpoint responde `202 Accepted` imediatamente e o e-mail é processado
+por um consumer RabbitMQ.
 
 - Enviar e-mail
 
