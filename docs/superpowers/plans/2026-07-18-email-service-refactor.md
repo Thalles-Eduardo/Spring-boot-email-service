@@ -69,25 +69,30 @@ Bump the springdoc version (tested against Spring Boot 3.5.x):
 		</dependency>
 ```
 
-- [ ] **Step 2: Compile**
+- [ ] **Step 2: Verify the new dependency versions resolve (do NOT run a full compile yet)**
 
-Run: `./mvnw.cmd -q compile`
-Expected: no output, exit code 0.
+`EmailModel.java` and `EmailDto.java` still import `jakarta.persistence.*` at this point in the plan —
+that package comes from `spring-boot-starter-data-jpa`, which this step just removed. A full
+`./mvnw.cmd compile` will therefore fail with `package jakarta.persistence does not exist` until
+Task 2 rewrites those two files. That's expected and NOT a bug in this task — don't try to fix it here.
+This step only confirms the POM edits themselves are valid and the new versions exist in the repo.
 
-- [ ] **Step 3: Run the existing test to confirm the baseline failure is fixed**
+Run: `./mvnw.cmd -q dependency:resolve`
+Expected: no errors, exit code 0 (confirms Spring Boot 3.5.16's dependency management and
+springdoc 2.8.17 resolve correctly). It is fine — expected, even — if this still lists/downloads
+`jakarta.persistence`-related artifacts transitively from something else; the point of this check is
+only that resolution succeeds, not that JPA is gone from the tree.
 
-Run: `./mvnw.cmd -q test -Dtest=SpringEmailApplicationTests`
-Expected: either `BUILD SUCCESS`, or a *different* failure than the
-`DataSourceBeanCreationException` from the baseline (e.g. a MongoDB/RabbitMQ connection issue is
-expected and OK in this environment since no local server is running — that is unrelated to this
-task). If you still see `DataSourceBeanCreationException`, stop and re-check Step 1.
-
-- [ ] **Step 4: Commit**
+- [ ] **Step 3: Commit**
 
 ```bash
 git add pom.xml
 git commit -m "Update Spring Boot to 3.5.16, drop unused JPA starter, bump springdoc"
 ```
+
+Full compilation and the `SpringEmailApplicationTests` baseline check happen at the end of Task 2
+(its Step 6/7), once `EmailModel.java` and `EmailDto.java` no longer reference `jakarta.persistence`.
+Do not attempt them in this task.
 
 ---
 
@@ -224,7 +229,17 @@ Expected: FAIL — `EmailService.java` won't compile yet (still uses `Long`/`get
 client). That's expected; it's fixed in Task 3. For this step, only confirm the compiler errors are
 limited to `EmailService.java` (nothing else).
 
-- [ ] **Step 7: Commit model/repository/dto together (compile is fixed at the end of Task 3, but these three change as one logical unit)**
+- [ ] **Step 7: Re-check the Task 1 baseline now that `jakarta.persistence` is gone from `EmailModel`/`EmailDto`**
+
+This isn't expected to fully pass yet (see Step 6 — `EmailService.java` still needs Task 3), but run it
+anyway to confirm the *only* compile errors are in `EmailService.java` and nothing else regressed:
+
+Run: `./mvnw.cmd -q test -Dtest=SpringEmailApplicationTests`
+Expected: FAIL to compile, with errors confined to `EmailService.java`. You should NOT see any error
+mentioning `jakarta.persistence` or `DataSourceBeanCreationException` anymore — if you do, something
+here is wrong and needs fixing before moving on.
+
+- [ ] **Step 8: Commit model/repository/dto together (compile is fixed at the end of Task 3, but these three change as one logical unit)**
 
 ```bash
 git add src/main/java/br/com/thalleseduardo/springemail/model/EmailModel.java \
