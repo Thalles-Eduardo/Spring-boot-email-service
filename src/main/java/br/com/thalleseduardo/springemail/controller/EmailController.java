@@ -1,11 +1,8 @@
 package br.com.thalleseduardo.springemail.controller;
 
 import br.com.thalleseduardo.springemail.dto.EmailDto;
-import br.com.thalleseduardo.springemail.model.EmailModel;
-import br.com.thalleseduardo.springemail.service.EmailService;
+import br.com.thalleseduardo.springemail.producer.EmailProducer;
 import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,15 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class EmailController {
 
-    @Autowired
-    private EmailService emailService;
+    private final EmailProducer emailProducer;
 
-    @PostMapping("/sending-email")
-    public ResponseEntity<EmailModel> sendingEmail(@RequestBody @Valid EmailDto emailDto){
-        EmailModel emailModel = new EmailModel();
-        BeanUtils.copyProperties(emailDto, emailModel);
-        emailService.sendEmail(emailModel);
-        return new ResponseEntity<>(emailModel, HttpStatus.CREATED);
+    public EmailController(EmailProducer emailProducer) {
+        this.emailProducer = emailProducer;
     }
 
+    @PostMapping("/sending-email")
+    public ResponseEntity<Void> sendingEmail(@RequestBody @Valid EmailDto emailDto) {
+        emailProducer.publish(emailDto);
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
 }
+
