@@ -8,6 +8,13 @@ spring:
     username: guest
     password: guest
     queue: email-queue
+    listener:
+      simple:
+        retry:
+          enabled: true
+          max-attempts: 3
+          initial-interval: 1000
+        default-requeue-rejected: false
   mail:
     host: smtp.example.com
     port: 587

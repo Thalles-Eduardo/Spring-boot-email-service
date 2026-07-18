@@ -1283,6 +1283,17 @@ git add src/main/java/br/com/thalleseduardo/springemail/config/RabbitMQConfig.ja
 git commit -m "Add dead-letter queue to the RabbitMQ email queue"
 ```
 
+**Addendum (found in final whole-implementation review, after all 13 tasks landed):** the
+`x-dead-letter-exchange`/`x-dead-letter-routing-key` queue arguments above are necessary but NOT
+sufficient. Spring AMQP's default listener error handling only routes *fatal* exceptions (bad message
+conversion, listener signature mismatches) to reject-without-requeue; an ordinary exception thrown from
+`EmailConsumer.listen()` — e.g. `emailRepository.save()` failing because Mongo is unreachable, exactly
+the scenario this task exists for — is nacked with `requeue=true` by default and goes straight back
+onto the same queue forever, never reaching `email.dlq`. Fixed by adding a bounded retry policy plus
+`default-requeue-rejected: false` to `spring.rabbitmq.listener.simple.*` in `application.yaml.example`
+(Task 11) — see that file for the actual properties. No Java code changes were needed; this was a
+config-only gap.
+
 ---
 
 ### Task 11: `application.yaml.example`
